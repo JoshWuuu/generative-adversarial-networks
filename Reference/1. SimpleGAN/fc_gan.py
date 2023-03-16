@@ -1,3 +1,12 @@
+""" 
+Simple GAN using fully connected layers
+
+Programmed by Aladdin Persson <aladdin.persson at hotmail dot com>
+* 2020-11-01: Initial coding
+* 2022-12-20: Small revision of code, checked that it works with latest PyTorch version
+"""
+
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -28,7 +37,7 @@ class Generator(nn.Module):
         self.gen = nn.Sequential(
             nn.Linear(z_dim, 256),
             nn.LeakyReLU(0.01),
-            nn.Linear(256, img_dim), # img_dim = 784, 28*28*1
+            nn.Linear(256, img_dim),
             nn.Tanh(),  # normalize inputs to [-1, 1] so make outputs [-1, 1]
         )
 
@@ -71,10 +80,8 @@ for epoch in range(num_epochs):
         ### Train Discriminator: max log(D(x)) + log(1 - D(G(z)))
         noise = torch.randn(batch_size, z_dim).to(device)
         fake = gen(noise)
-        # loss for left side of discriminator
         disc_real = disc(real).view(-1)
-        lossD_real = criterion(disc_real, torch.ones_like(disc_real)) # ones_like = 1 yn = 1 so the loss will be -log Prob(discreal)
-        # loss for right side of discriminator
+        lossD_real = criterion(disc_real, torch.ones_like(disc_real))
         disc_fake = disc(fake).view(-1)
         lossD_fake = criterion(disc_fake, torch.zeros_like(disc_fake))
         lossD = (lossD_real + lossD_fake) / 2
