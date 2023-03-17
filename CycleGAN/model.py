@@ -32,7 +32,7 @@ class ResidualBlock(nn.Module):
     def forward(self, x):
         return x + self.block(x)
 
-class Generator(nn.Module):
+class GeneratorCycleGAN(nn.Module):
     """
     Generator for CycleGAN
     """
@@ -102,7 +102,7 @@ class Block(nn.Module):
     def forward(self, x):
         return self.conv(x)
 
-class Discriminator(nn.Module):
+class DiscriminatorCycleGAN(nn.Module):
     """
     Discriminator for CycleGAN
     """
