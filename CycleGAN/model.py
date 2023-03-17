@@ -139,13 +139,13 @@ def test1_generator():
     img_channels = 3
     img_size = 128
     x = torch.randn((2, img_channels, img_size, img_size))
-    gen = Generator(img_channels)
+    gen = GeneratorCycleGAN(img_channels)
     assert gen(x).shape == x.shape, "Generator output shape is not correct"
     print("Generator test1 passed!")
 
 def test2_discriminator():
     x = torch.randn((5, 3, 256, 256))
-    model = Discriminator(in_channels=3)
+    model = DiscriminatorCycleGAN(in_channels=3)
     preds = model(x)
     assert preds.shape == (5, 1, 30, 30), "Discriminator output shape is not correct"
     print("Discriminator test2 passed!")
