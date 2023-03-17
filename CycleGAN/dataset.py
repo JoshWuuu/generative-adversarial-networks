@@ -4,6 +4,9 @@ from torch.utils.data import Dataset
 import numpy as np
 
 class HorseZebraDataset(Dataset):
+    """
+    Dataset for Horse and Zebra images, including data loading
+    """
     def __init__(self, root_zebra, root_horse, transform=None):
         self.root_zebra = root_zebra
         self.root_horse = root_horse
@@ -29,6 +32,8 @@ class HorseZebraDataset(Dataset):
         horse_img = np.array(Image.open(horse_path).convert("RGB"))
 
         if self.transform:
+            # albumentations transforms, with one image and one target image
+            # transform in the same way
             augmentations = self.transform(image=zebra_img, image0=horse_img)
             zebra_img = augmentations["image"]
             horse_img = augmentations["image0"]
