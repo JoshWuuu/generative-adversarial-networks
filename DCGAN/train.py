@@ -34,9 +34,18 @@ def train_fn(gen, disc, dataloader, criterion, opt_gen, opt_disc, device, NUM_EP
         for batch_idx, (real, _) in enumerate(dataloader):
             real = real.to(device)
             noise = torch.randn(BATCH_SIZE, NOISE_DIM, 1, 1).to(device)
+            
+            ### Train Generator: min log(1 - D(G(z))) <-> max log(D(G(z))
             fake = gen(noise)
+            output = disc(fake).reshape(-1)
+            loss_gen = criterion(output, torch.ones_like(output))
+            gen.zero_grad()
+            loss_gen.backward()
+            opt_gen.step()
 
             ### Train Discriminator: max log(D(x)) + log(1 - D(G(z)))
+            # maximize these two parts == minimize the bce loss 
+            # since bce loss = -log(D(x)) - log(1 - D(G(z)))
             disc_real = disc(real).reshape(-1)
             loss_disc_real = criterion(disc_real, torch.ones_like(disc_real))
             disc_fake = disc(fake.detach()).reshape(-1)
@@ -46,12 +55,6 @@ def train_fn(gen, disc, dataloader, criterion, opt_gen, opt_disc, device, NUM_EP
             loss_disc.backward()
             opt_disc.step()
 
-            ### Train Generator: min log(1 - D(G(z))) <-> max log(D(G(z))
-            output = disc(fake).reshape(-1)
-            loss_gen = criterion(output, torch.ones_like(output))
-            gen.zero_grad()
-            loss_gen.backward()
-            opt_gen.step()
 
             # Print losses occasionally and print to tensorboard
             if batch_idx % 100 == 0:
