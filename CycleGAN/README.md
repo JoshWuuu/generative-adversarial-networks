@@ -1,4 +1,5 @@
 # CycleGAN
+The repo built the CycleGAN to train the famous zebra and horse dataset. 
 
 ## Reference
 https://github.com/aladdinpersson/Machine-Learning-Collection
