@@ -9,5 +9,13 @@ The model includes generator and discriminator model. The generator utilizes tra
 Discrimantor $D$ wants to seperate the real($x$)/fake($z$) images as much as possible, whereas generator $G$ wants to put the real($x$)/fake($z$) images as close as possible.
 $$D_Loss = max\Bigl(log(D(x)) + log(1 - D(G(z))\Bigl)$$
 $$G_Loss = min\Bigl(log(1 - D(G(z))\Bigl) = max\Bigl(log(D(G(z))\Bigl)$$
+## Result
+<figure>
+  <img 
+  src="DCGAN_sample_result.png" 
+  alt="Results of sklearn models" 
+  width="900" height="250">
+</figure>
+
 ## Reference
 https://github.com/aladdinpersson/Machine-Learning-Collection
